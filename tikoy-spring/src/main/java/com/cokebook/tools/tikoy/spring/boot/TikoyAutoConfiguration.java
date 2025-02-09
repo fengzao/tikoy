@@ -26,14 +26,14 @@ public class TikoyAutoConfiguration {
     public JobContainer jobContainer(ApplicationContext context) {
         return new JobContainerX(
                 text -> context.getEnvironment().resolvePlaceholders(text),
-                clazz -> context.getBean(clazz)
+                context::getBean
         );
     }
 
     @Bean
     public JobSnapshotTrigger snapshotTrigger(JobContainer jobContainer, ApplicationContext applicationContext) {
         return new JobSnapshotTrigger(jobContainer,
-                () -> jobContainer.getLogDispatcher(),
+                jobContainer::getLogDispatcher,
                 () -> new SpringJdbcOperationsFactory(applicationContext));
     }
 
@@ -42,8 +42,8 @@ public class TikoyAutoConfiguration {
         private ApplicationContext applicationContext;
 
         public JobContainerX(Function<String, String> textResolver,
-                             Function<Class<? extends JobFactory>, ? extends JobFactory> factoryBuilder) {
-            super(textResolver, factoryBuilder);
+                             Function<Class<? extends JobFactory>, ? extends JobFactory> jobFactoryBuilder) {
+            super(textResolver, jobFactoryBuilder);
         }
 
         @Override

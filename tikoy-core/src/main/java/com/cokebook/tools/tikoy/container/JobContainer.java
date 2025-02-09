@@ -67,7 +67,7 @@ public class JobContainer implements HandlerMapping, Lifecycle {
         Map<String, List<JobMapping>> groupRefMappings = handlerMapping.schemaMappings().stream()
                 .collect(Collectors.groupingBy(JobMapping::id));
 
-        groupRefMappings.keySet().stream().forEach(group -> {
+        groupRefMappings.keySet().forEach(group -> {
 
             groupRefSs.put(group,
                     handlerMapping.snapshotTable(group).stream()
@@ -79,7 +79,7 @@ public class JobContainer implements HandlerMapping, Lifecycle {
 
         for (String group : groupRefMappings.keySet()) {
             List<Class<? extends JobFactory>> factories = groupRefMappings.get(group).stream()
-                    .map(schemaMapping -> schemaMapping.factory())
+                    .map(JobMapping::factory)
                     .filter(clazz -> clazz != JobFactory.class)
                     .collect(Collectors.toList());
             if (factories.size() > 1) {
