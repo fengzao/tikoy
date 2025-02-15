@@ -56,13 +56,6 @@ public interface Log {
 
 
     /**
-     * 事务ID
-     *
-     * @return 事务ID
-     */
-    Long xid();
-
-    /**
      * 日志时间戳
      *
      * @return 日志时间戳
