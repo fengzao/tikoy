@@ -3,14 +3,16 @@ package com.cokebook.tools.tikoy.dispatcher;
 import com.cokebook.tools.tikoy.mapping.Op;
 import lombok.Data;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 数据库日志格式:
  * @date 2024/12/4
  */
 @Data
-public class MaxwellLog implements Log {
+public class SimpleLog implements Log {
 
     private String database;
     private String table;
@@ -20,33 +22,38 @@ public class MaxwellLog implements Log {
     private Long ts;
     private transient Long xid;
 
-
     @Override
-    public String getDatabase() {
+    public String database() {
         return database;
     }
 
     @Override
-    public String getTable() {
+    public String table() {
         return table;
     }
 
     @Override
-    public Op getType() {
+    public Op type() {
         return Op.of(type);
     }
 
     @Override
-    public Map<String, Object> getBefore() {
-        Map<String, Object> before = new HashMap<>(getAfter());
-        for (String key : old.keySet()) {
-            before.put(key, old.get(key));
-        }
-        return before;
+    public Map<String, Object> data() {
+        return data;
     }
 
     @Override
-    public Map<String, Object> getAfter() {
-        return data;
+    public Map<String, Object> old() {
+        return old == null ? Collections.emptyMap() : old;
+    }
+
+    @Override
+    public Long xid() {
+        return xid;
+    }
+
+    @Override
+    public Long ts() {
+        return ts;
     }
 }

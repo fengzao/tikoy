@@ -16,29 +16,29 @@ public class TestLogDeserializer implements Deserializer<Log> {
         String str = new String(data);
         return new Log() {
             @Override
-            public String getDatabase() {
+            public String database() {
                 return "demo";
             }
 
             @Override
-            public String getTable() {
+            public String table() {
                 return "tbl_user";
             }
 
             @Override
-            public Op getType() {
+            public Op type() {
                 return Op.INSERT;
             }
 
             @Override
-            public Map<String, Object> getAfter() {
+            public Map<String, Object> data() {
                 Map<String, Object> x = new HashMap<>();
                 x.put("text", str);
                 return x;
             }
 
             @Override
-            public Map<String, Object> getBefore() {
+            public Map<String, Object> old() {
                 return null;
             }
         };

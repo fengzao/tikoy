@@ -58,27 +58,27 @@ public class SimpHandlerMappingTest {
         }
 
         @Override
-        public String getDatabase() {
+        public String database() {
             return database;
         }
 
         @Override
-        public String getTable() {
+        public String table() {
             return table;
         }
 
         @Override
-        public Op getType() {
+        public Op type() {
             return op;
         }
 
         @Override
-        public Map<String, Object> getAfter() {
+        public Map<String, Object> data() {
             return data;
         }
 
         @Override
-        public Map<String, Object> getBefore() {
+        public Map<String, Object> old() {
             return null;
         }
     }

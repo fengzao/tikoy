@@ -1,7 +1,7 @@
 package com.cokebook.tools.tikoy.travelling;
 
 import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
-import com.cokebook.tools.tikoy.dispatcher.MaxwellLog;
+import com.cokebook.tools.tikoy.dispatcher.SimpleLog;
 import com.cokebook.tools.tikoy.mapping.Op;
 import com.cokebook.tools.tikoy.support.Table;
 import com.cokebook.tools.tikoy.support.JdbcOperationsFactory;
@@ -40,7 +40,7 @@ public class TableTravelling {
                     .build();
             travelling.run((database, table1, rows) -> {
                 rows.forEach(row -> {
-                    MaxwellLog record = new MaxwellLog();
+                    SimpleLog record = new SimpleLog();
                     record.setDatabase(database);
                     record.setTable(table1);
                     record.setData(row);

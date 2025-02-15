@@ -34,7 +34,7 @@ public class SimpleHandlerMapping implements HandlerMapping {
     public Handler getHandler(String group, Log record, Handler defaultHandler) {
 
         List<Handler> targetHandlers = handlers.stream().
-                filter(handler -> handler.match(record.getDatabase(), record.getTable(), record.getType(), group))
+                filter(handler -> handler.match(record.database(), record.table(), record.type(), group))
                 .collect(Collectors.toList());
 
         if (targetHandlers.isEmpty()) {
