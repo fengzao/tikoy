@@ -14,6 +14,7 @@ import com.cokebook.tools.tikoy.travelling.TableTravelling;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -78,17 +79,17 @@ public class JobContainer implements HandlerMapping, Lifecycle {
         });
 
         for (String group : groupRefMappings.keySet()) {
-            List<Class<? extends JobFactory>> factories = groupRefMappings.get(group).stream()
+            Set<Class<? extends JobFactory>> factories = groupRefMappings.get(group).stream()
                     .map(JobMapping::factory)
                     .filter(clazz -> clazz != JobFactory.class)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
             if (factories.size() > 1) {
                 throw new IllegalStateException("schema mapping group = '" + group + "' has more than one job factory");
             }
             if (factories.isEmpty()) {
                 continue;
             }
-            Class<? extends JobFactory> factoryClazz = factories.get(0);
+            Class<? extends JobFactory> factoryClazz = factories.stream().findFirst().get();
             JobFactory factory = factoryBuilder.apply(factoryClazz);
             jobs.add(factory.get(group, dispatcher));
         }
