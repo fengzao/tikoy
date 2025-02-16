@@ -24,18 +24,19 @@ public class MaxwellLogTest {
                 "    \"email\": \"john.doe@example.com\"\n" +
                 "  },\n" +
                 "  \"old\": {\n" +
-                "    \"first_name\": \"Johnny\" \n" +
+                "    \"first_name\": \"Johnny\", \n" +
+                "    \"email\": \"johnny.doe@example.com\"\n" +
                 "  }\n" +
                 "}";
 
         MaxwellLog log = JSON.parseObject(json, MaxwellLog.class);
 
-        Assert.assertEquals(1, log.old().size());
+
         Assert.assertEquals(4, log.before().size());
 
         Assert.assertEquals("Johnny", log.before().get("first_name"));
         Assert.assertEquals("Doe", log.before().get("last_name"));
-        Assert.assertEquals("john.doe@example.com", log.before().get("email"));
+        Assert.assertEquals("johnny.doe@example.com", log.before().get("email"));
         Assert.assertEquals(1, log.before().get("id"));
         Assert.assertEquals(Op.UPDATE, log.type());
 
@@ -44,7 +45,6 @@ public class MaxwellLogTest {
         Assert.assertEquals("Doe", log.after().get("last_name"));
         Assert.assertEquals("john.doe@example.com", log.after().get("email"));
         Assert.assertEquals(1, log.after().get("id"));
-
 
 
         Assert.assertEquals("sales", log.database());

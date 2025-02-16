@@ -62,11 +62,10 @@ public class DebeziumLog implements Log {
         for (String key : before().keySet()) {
             Object bV = before().get(key);
             Object aV = after().get(key);
-            if (Objects.equals(bV, aV)) {
+            if (!Objects.equals(bV, aV)) {
                 old.put(key, bV);
             }
         }
-
         return old;
     }
 
