@@ -21,7 +21,6 @@ public class TestJob {
     public void process(Log log) {
         System.out.println("log = " + log);
         count.incrementAndGet();
-
     }
 
 }

@@ -4,6 +4,7 @@ import com.cokebook.tools.tikoy.container.JobContainer;
 import com.cokebook.tools.tikoy.container.JobFactory;
 import com.cokebook.tools.tikoy.mapping.annotation.JobMapping;
 import com.cokebook.tools.tikoy.container.JobSnapshotTrigger;
+import com.cokebook.tools.tikoy.spring.SpringJdbcOperationsFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

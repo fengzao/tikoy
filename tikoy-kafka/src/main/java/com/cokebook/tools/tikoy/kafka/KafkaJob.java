@@ -3,12 +3,14 @@ package com.cokebook.tools.tikoy.kafka;
 import com.cokebook.tools.tikoy.container.Job;
 import com.cokebook.tools.tikoy.dispatcher.Log;
 import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
+import com.cokebook.tools.tikoy.dispatcher.log.SmartLogDeserializer;
 import com.cokebook.tools.tikoy.support.Props;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.CommitFailedException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.utils.ThreadUtils;
 
 import java.time.Duration;
@@ -42,21 +44,26 @@ public class KafkaJob implements Job {
 
     @Override
     public void init() {
-        String topics = props.getTopics();
-        log.warn("No topics set for job id  = {}", id);
-        this.consumer = new KafkaConsumer<String, Log>(Props.toMap(props));
-        if (topics != null) {
-            consumer.subscribe(
-                    Arrays.stream(topics.split(",")).map(String::trim)
-                            .filter(str -> str.length() > 0)
-                            .collect(Collectors.toList())
-            );
+
+        if (props.getValueDeserializer() == null) {
+            props.setValueDeserializer(DefaultDeserializer.class.getName());
         }
+        if (props.getId() == null) {
+            props.setId(this.id);
+        }
+        String topics = props.getTopics();
+        if (topics == null || topics.trim().isEmpty()) {
+            log.warn("the kafka consumer config  topics is null or empty , ignore this job.");
+            return;
+        }
+        this.consumer = new KafkaConsumer<String, Log>(Props.toMap(props));
+        this.consumer.subscribe(Arrays.stream(topics.split(",")).map(String::trim).filter(str -> !str.isEmpty()).collect(Collectors.toList()));
+
     }
 
     @Override
     public void start() {
-        pool.execute(this::run);
+        pool.execute(this);
     }
 
     @Override
@@ -83,6 +90,15 @@ public class KafkaJob implements Job {
     public void stop() {
         closed.set(true);
         this.pool.shutdown();
+    }
+
+
+    public static class DefaultDeserializer extends SmartLogDeserializer implements Deserializer<Log> {
+
+        @Override
+        public Log deserialize(String topic, byte[] data) {
+            return apply(new String(data));
+        }
     }
 
 }

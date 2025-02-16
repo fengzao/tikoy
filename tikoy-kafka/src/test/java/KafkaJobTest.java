@@ -23,12 +23,12 @@ public class KafkaJobTest {
                 .build();
 
         LogDispatcher dispatcher = (group, record) -> {
-            System.out.println("text = " + JSON.toJSONString(record.getAfter()));
+            System.out.println("text = " + JSON.toJSONString(record.data()));
         };
         KafkaJob job = new KafkaJob("test", props, dispatcher);
         job.init();
         job.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> job.stop()));
+        Runtime.getRuntime().addShutdownHook(new Thread(job::stop));
     }
 
     public static class RecordDeserializer implements Deserializer<Log> {
@@ -37,30 +37,35 @@ public class KafkaJobTest {
             String str = new String(data);
             return new Log() {
                 @Override
-                public String getDatabase() {
+                public String database() {
                     return null;
                 }
 
                 @Override
-                public String getTable() {
+                public String table() {
                     return null;
                 }
 
                 @Override
-                public Op getType() {
+                public Op type() {
                     return null;
                 }
 
                 @Override
-                public Map<String, Object> getAfter() {
+                public Map<String, Object> data() {
                     Map<String, Object> x = new HashMap<>();
                     x.put("text", str);
                     return x;
                 }
 
                 @Override
-                public Map<String, Object> getBefore() {
+                public Map<String, Object> old() {
                     return null;
+                }
+
+                @Override
+                public Long ts() {
+                    return 1L;
                 }
             };
         }

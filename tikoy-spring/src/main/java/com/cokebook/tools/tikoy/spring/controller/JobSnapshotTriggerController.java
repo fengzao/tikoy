@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/job-snapshot-trigger")
 public class JobSnapshotTriggerController {
 
-    private JobSnapshotTrigger trigger;
+    private final JobSnapshotTrigger trigger;
 
     public JobSnapshotTriggerController(JobSnapshotTrigger trigger) {
         this.trigger = trigger;

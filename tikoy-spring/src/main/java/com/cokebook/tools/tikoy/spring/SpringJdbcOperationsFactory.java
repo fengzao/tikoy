@@ -1,4 +1,4 @@
-package com.cokebook.tools.tikoy.spring.boot;
+package com.cokebook.tools.tikoy.spring;
 
 import com.cokebook.tools.tikoy.support.JdbcOperationsFactory;
 import org.springframework.context.ApplicationContext;
@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @date 2024/11/14
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class SpringJdbcOperationsFactory implements JdbcOperationsFactory {
 
     public static final Function<String, List<String>> CANDIDATE_DS_GENERATOR = (dbName)
-            -> Arrays.asList("", "ds", "-ds", "datasource", "-datasource").stream().map(suffix -> dbName + suffix).collect(Collectors.toList());
+            -> Stream.of("", "ds", "-ds", "datasource", "-datasource").map(suffix -> dbName + suffix).collect(Collectors.toList());
 
     public static final ConcurrentMap<String, NamedParameterJdbcOperations> dbRefOperations = new ConcurrentHashMap<>();
 
@@ -38,16 +39,13 @@ public class SpringJdbcOperationsFactory implements JdbcOperationsFactory {
         Function<String, String> candidateBeanNameMatcher = (dbName) -> {
             List<String> candidateDataSourceNames = CANDIDATE_DS_GENERATOR.apply(dbName);
             return dataSourceMap.keySet().stream().filter(beanName ->
-                    candidateDataSourceNames.stream().filter(cdn -> cdn.equalsIgnoreCase(beanName)).findFirst().orElse(null) != null)
+                            candidateDataSourceNames.stream().filter(cdn -> cdn.equalsIgnoreCase(beanName)).findFirst().orElse(null) != null)
                     .findFirst().orElse(null);
         };
 
         dbRefOperations.computeIfAbsent(db, (dbName) -> {
 
             String candidateDataSourceBeanName = candidateBeanNameMatcher.apply(db);
-            if (candidateBeanNameMatcher == null) {
-                candidateDataSourceBeanName = candidateBeanNameMatcher.apply("default");
-            }
 
             if (candidateDataSourceBeanName != null) {
                 DataSource dataSource = dataSourceMap.get(candidateDataSourceBeanName);
