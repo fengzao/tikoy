@@ -28,7 +28,7 @@ public class KafkaJobTest {
         KafkaJob job = new KafkaJob("test", props, dispatcher);
         job.init();
         job.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> job.stop()));
+        Runtime.getRuntime().addShutdownHook(new Thread(job::stop));
     }
 
     public static class RecordDeserializer implements Deserializer<Log> {
@@ -61,6 +61,11 @@ public class KafkaJobTest {
                 @Override
                 public Map<String, Object> old() {
                     return null;
+                }
+
+                @Override
+                public Long ts() {
+                    return 1L;
                 }
             };
         }
