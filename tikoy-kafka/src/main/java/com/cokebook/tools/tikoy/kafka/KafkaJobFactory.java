@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @date 2025/2/3
@@ -30,7 +31,7 @@ public class KafkaJobFactory implements JobFactory {
     public Job get(String id, LogDispatcher dispatcher) {
 
         JobProps props = Props.of(env,
-                Arrays.asList(prefix, id).stream()
+                Stream.of(prefix, id)
                         .filter(Objects::nonNull)
                         .filter(str -> !str.trim().isEmpty())
                         .collect(Collectors.joining(".")),
