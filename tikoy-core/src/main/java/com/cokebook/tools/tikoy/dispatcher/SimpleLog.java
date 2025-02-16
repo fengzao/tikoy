@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 数据库日志格式:
- *
  * @date 2024/12/4
  */
 @Data

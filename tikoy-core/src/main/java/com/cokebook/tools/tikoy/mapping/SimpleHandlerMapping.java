@@ -146,8 +146,6 @@ public class SimpleHandlerMapping implements HandlerMapping {
     }
 
     /**
-     * 求集合交集
-     *
      * @param c1
      * @param c2
      * @return
