@@ -45,8 +45,7 @@ public class TableTravelling {
                     record.setTable(table1);
                     record.setData(row);
                     record.setOld(Collections.emptyMap());
-                    record.setXid(-1L);
-                    record.setType(Op.INSERT.name());
+                    record.setType(Op.INSERT);
                     record.setTs(System.currentTimeMillis());
 
                     if (running.get() == false) {

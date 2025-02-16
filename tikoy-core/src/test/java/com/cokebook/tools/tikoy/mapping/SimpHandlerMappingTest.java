@@ -81,6 +81,11 @@ public class SimpHandlerMappingTest {
         public Map<String, Object> old() {
             return null;
         }
+
+        @Override
+        public Long ts() {
+            return -1L;
+        }
     }
 
 }
