@@ -18,16 +18,16 @@ import java.util.stream.Collectors;
  */
 public class SimpleHandlerMapping implements HandlerMapping {
 
-    private final List<MatcherHandler> handlers = new CopyOnWriteArrayList();
+    private final List<MatcherHandler> handlers = new CopyOnWriteArrayList<>();
 
     private final Map<String, List<Matcher>> groupMatcherMap = new HashMap<>();
 
     protected final List<JobMapping> jobMappings = new ArrayList<>();
 
-    private Function<String, String> textResolver;
+    private final TextResolver textResolver;
 
-    public SimpleHandlerMapping(Function<String, String> textResolver) {
-        this.textResolver = textResolver != null ? textResolver : Function.identity();
+    public SimpleHandlerMapping(TextResolver textResolver) {
+        this.textResolver = textResolver != null ? textResolver : str -> str;
     }
 
     @Override
@@ -57,11 +57,7 @@ public class SimpleHandlerMapping implements HandlerMapping {
                         Arrays.asList(processOn.type()),
                         resolvePlaceholders(jobMapping.id())
                 );
-                List<Matcher> groupRefMatcherList = groupMatcherMap.get(matcher.group);
-                if (groupRefMatcherList == null) {
-                    groupRefMatcherList = new ArrayList<>();
-                    groupMatcherMap.put(matcher.group, groupRefMatcherList);
-                }
+                List<Matcher> groupRefMatcherList = groupMatcherMap.computeIfAbsent(matcher.group, k -> new ArrayList<>());
                 groupRefMatcherList.add(matcher);
                 handlers.add(new MatcherHandler(matcher, new MethodInvokeHandler(object, method)));
             }
@@ -82,7 +78,7 @@ public class SimpleHandlerMapping implements HandlerMapping {
                     return matcher.tables.stream().filter(tableName -> !Objects.equals(tableName, JobMapping.ALL))
                             .map(table -> new Table(database, table))
                             .collect(Collectors.toList());
-                }).flatMap(tables -> tables.stream())
+                }).flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
@@ -92,8 +88,8 @@ public class SimpleHandlerMapping implements HandlerMapping {
     }
 
     private static class MatcherHandler implements Handler {
-        private Handler target;
-        private Matcher matcher;
+        private final Handler target;
+        private final Matcher matcher;
 
         public MatcherHandler(Matcher matcher, Handler target) {
             this.target = target;

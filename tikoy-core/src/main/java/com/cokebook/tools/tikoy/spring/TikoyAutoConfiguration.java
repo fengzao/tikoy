@@ -3,6 +3,7 @@ package com.cokebook.tools.tikoy.spring;
 import com.cokebook.tools.tikoy.container.JobContainer;
 import com.cokebook.tools.tikoy.container.JobFactory;
 import com.cokebook.tools.tikoy.container.JobSnapshotTrigger;
+import com.cokebook.tools.tikoy.mapping.TextResolver;
 import com.cokebook.tools.tikoy.mapping.annotation.JobMapping;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
@@ -40,7 +41,7 @@ public class TikoyAutoConfiguration {
 
         private ApplicationContext applicationContext;
 
-        public JobContainerX(Function<String, String> textResolver,
+        public JobContainerX(TextResolver textResolver,
                              Function<Class<? extends JobFactory>, ? extends JobFactory> jobFactoryBuilder) {
             super(textResolver, jobFactoryBuilder);
         }

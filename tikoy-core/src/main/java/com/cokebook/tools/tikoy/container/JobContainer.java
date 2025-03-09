@@ -6,6 +6,7 @@ import com.cokebook.tools.tikoy.dispatcher.LogDispatcherImpl;
 import com.cokebook.tools.tikoy.mapping.Handler;
 import com.cokebook.tools.tikoy.mapping.HandlerMapping;
 import com.cokebook.tools.tikoy.mapping.SimpleHandlerMapping;
+import com.cokebook.tools.tikoy.mapping.TextResolver;
 import com.cokebook.tools.tikoy.mapping.annotation.JobMapping;
 import com.cokebook.tools.tikoy.support.Lifecycle;
 import com.cokebook.tools.tikoy.support.Table;
@@ -23,19 +24,16 @@ import java.util.stream.Collectors;
  * @date 2025/1/26
  */
 public class JobContainer implements HandlerMapping, Lifecycle {
-    private LogDispatcher dispatcher;
-    private SimpleHandlerMapping handlerMapping;
-    private Function<String, String> textResolver;
+    private final LogDispatcher dispatcher;
+    private final SimpleHandlerMapping handlerMapping;
     public Function<Class<? extends JobFactory>, ? extends JobFactory> factoryBuilder;
-
     private final List<Job> jobs = new ArrayList<>();
     private final Map<String, List<TableTravelling>> groupRefSs = new ConcurrentHashMap<>();
 
-    public JobContainer(Function<String, String> textResolver,
+    public JobContainer(TextResolver textResolver,
                         Function<Class<? extends JobFactory>, ? extends JobFactory> factoryBuilder) {
-        this.textResolver = textResolver;
         this.factoryBuilder = factoryBuilder;
-        this.handlerMapping = new SimpleHandlerMapping(this.textResolver);
+        this.handlerMapping = new SimpleHandlerMapping(textResolver);
         this.dispatcher = new LogDispatcherImpl(handlerMapping);
     }
 
