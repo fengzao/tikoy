@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,7 +1,7 @@
 package com.cokebook.tools.tikoy.mapping;
 
-import com.cokebook.tools.tikoy.mapping.annotation.ProcessOn;
 import com.cokebook.tools.tikoy.mapping.annotation.JobMapping;
+import com.cokebook.tools.tikoy.mapping.annotation.ProcessOn;
 import org.junit.Test;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;

@@ -1,6 +1,8 @@
+package com.cokebook.tools.tikoy.kafka.example;
+
 import com.alibaba.fastjson2.JSON;
-import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
 import com.cokebook.tools.tikoy.dispatcher.Log;
+import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
 import com.cokebook.tools.tikoy.kafka.JobProps;
 import com.cokebook.tools.tikoy.kafka.KafkaJob;
 import com.cokebook.tools.tikoy.mapping.Op;
@@ -12,15 +14,14 @@ import java.util.Map;
 /**
  * @date 2025/2/3
  */
-public class KafkaJobTest {
+public class KafkaJobDemo {
 
     public static void main(String[] args) throws Exception {
-        JobProps props = JobProps.builder()
+        JobProps props = new JobProps()
                 .servers("localhost:9092")
                 .id("test")
                 .topics("test.demo")
-                .valueDeserializer(RecordDeserializer.class.getName())
-                .build();
+                .valueDeserializer(RecordDeserializer.class.getName());
 
         LogDispatcher dispatcher = (group, record) -> {
             System.out.println("text = " + JSON.toJSONString(record.data()));

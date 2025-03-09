@@ -3,7 +3,6 @@ package com.cokebook.tools.tikoy.dispatcher.log;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.cokebook.tools.tikoy.dispatcher.Log;
-import com.cokebook.tools.tikoy.dispatcher.log.Deserializer;
 import com.cokebook.tools.tikoy.dispatcher.log.debezium.DebeziumLog;
 import com.cokebook.tools.tikoy.dispatcher.log.maxwell.MaxwellLog;
 

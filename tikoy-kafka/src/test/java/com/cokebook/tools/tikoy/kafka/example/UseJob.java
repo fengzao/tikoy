@@ -1,4 +1,4 @@
-package com.cokebook.tools.tikoy.spring;
+package com.cokebook.tools.tikoy.kafka.example;
 
 import com.cokebook.tools.tikoy.dispatcher.Log;
 import com.cokebook.tools.tikoy.kafka.KafkaJobFactory;
@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Component
 @JobMapping(id = "test", db = "demo", factory = KafkaJobFactory.class)
-public class TestJob {
+public class UseJob {
 
     public static final AtomicLong count = new AtomicLong(0);
 

@@ -8,11 +8,15 @@
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>tikoy-spring</module>
         <module>tikoy-core</module>
         <module>tikoy-kafka</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <spring.boot.version>1.5.9.RELEASE</spring.boot.version>
+        <spring.version>4.3.9.RELEASE</spring.version>
+    </properties>
 
 
     <dependencyManagement>

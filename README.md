@@ -8,7 +8,7 @@
 
 ### 样例类
 
-- 见 `tikoy-spring` 下的 TestBootstrap 类.
+- 见 `tikoy-spring` 下的 com.cokebook.tools.tikoy.kafka.example.Bootstrap 类.
 
 ### 重点概念
 

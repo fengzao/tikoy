@@ -8,7 +8,7 @@ import java.util.List;
  * @date 2024/11/12
  */
 public class ChainHandler implements Handler {
-    private List<Handler> handlerList;
+    private final List<Handler> handlerList;
 
     public ChainHandler(List<Handler> handlerList) {
         this.handlerList = handlerList;
