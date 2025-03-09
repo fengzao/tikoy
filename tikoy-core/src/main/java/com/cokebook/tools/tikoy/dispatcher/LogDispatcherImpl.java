@@ -8,7 +8,7 @@ import com.cokebook.tools.tikoy.mapping.HandlerMapping;
  */
 public class LogDispatcherImpl implements LogDispatcher {
 
-    private HandlerMapping handlerMapping;
+    private final HandlerMapping handlerMapping;
     private Handler handlerNotFoundHandler = ((record) -> {
     });
 

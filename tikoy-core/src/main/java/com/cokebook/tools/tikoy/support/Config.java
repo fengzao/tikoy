@@ -1,4 +1,4 @@
-package com.cokebook.tools.tikoy.mapping;
+package com.cokebook.tools.tikoy.support;
 
 public interface Config {
 

@@ -1,4 +1,4 @@
-package com.cokebook.tools.tikoy.container;
+package com.cokebook.tools.tikoy.container.snapshot;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobSnapshotRunProps {
+public class SnapshotRunProps {
     private String group;
     private Map<String, Prop> props;
 

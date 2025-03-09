@@ -3,7 +3,7 @@ package com.cokebook.tools.tikoy.kafka;
 import com.cokebook.tools.tikoy.container.Job;
 import com.cokebook.tools.tikoy.container.JobFactory;
 import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
-import com.cokebook.tools.tikoy.mapping.Config;
+import com.cokebook.tools.tikoy.support.Config;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;

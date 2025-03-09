@@ -7,8 +7,7 @@ import java.util.Arrays;
  */
 public enum Op {
     INSERT, UPDATE, DELETE;
-
-
+    
     public static Op of(String type) {
         return Arrays.stream(Op.values()).filter(op -> op.name().equalsIgnoreCase(type))
                 .findFirst().orElse(null);

@@ -1,6 +1,6 @@
 package com.cokebook.tools.tikoy.kafka;
 
-import com.cokebook.tools.tikoy.mapping.Config;
+import com.cokebook.tools.tikoy.support.Config;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

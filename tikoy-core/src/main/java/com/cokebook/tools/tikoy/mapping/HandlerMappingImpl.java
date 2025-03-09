@@ -3,20 +3,19 @@ package com.cokebook.tools.tikoy.mapping;
 import com.cokebook.tools.tikoy.dispatcher.Log;
 import com.cokebook.tools.tikoy.mapping.annotation.JobMapping;
 import com.cokebook.tools.tikoy.mapping.annotation.ProcessOn;
-import com.cokebook.tools.tikoy.support.Table;
+import com.cokebook.tools.tikoy.support.TextResolver;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * @date 2024/11/11
  */
-public class SimpleHandlerMapping implements HandlerMapping {
+public class HandlerMappingImpl implements HandlerMapping {
 
     private final List<MatcherHandler> handlers = new CopyOnWriteArrayList<>();
 
@@ -26,7 +25,7 @@ public class SimpleHandlerMapping implements HandlerMapping {
 
     private final TextResolver textResolver;
 
-    public SimpleHandlerMapping(TextResolver textResolver) {
+    public HandlerMappingImpl(TextResolver textResolver) {
         this.textResolver = textResolver != null ? textResolver : str -> str;
     }
 
@@ -40,7 +39,7 @@ public class SimpleHandlerMapping implements HandlerMapping {
         if (targetHandlers.isEmpty()) {
             return defaultHandler;
         }
-        return new ChainHandler(targetHandlers);
+        return new HandlerChain(targetHandlers);
     }
 
 
@@ -57,30 +56,19 @@ public class SimpleHandlerMapping implements HandlerMapping {
                         Arrays.asList(processOn.type()),
                         resolvePlaceholders(jobMapping.id())
                 );
-                List<Matcher> groupRefMatcherList = groupMatcherMap.computeIfAbsent(matcher.group, k -> new ArrayList<>());
+                List<Matcher> groupRefMatcherList = groupMatcherMap.computeIfAbsent(matcher.getGroup(), k -> new ArrayList<>());
                 groupRefMatcherList.add(matcher);
                 handlers.add(new MatcherHandler(matcher, new MethodInvokeHandler(object, method)));
             }
         });
     }
 
+
     @Override
-    public List<Table> snapshotTable(String group) {
-        return groupMatcherMap.getOrDefault(group, Collections.emptyList())
-                .stream().filter(matcher -> {
-                    if (!matcher.ops.contains(Op.INSERT)) {
-                        return false;
-                    }
-                    return matcher.databases.size() == 1
-                            && !matcher.databases.contains(JobMapping.ALL);
-                }).map(matcher -> {
-                    String database = new ArrayList<>(matcher.databases).get(0);
-                    return matcher.tables.stream().filter(tableName -> !Objects.equals(tableName, JobMapping.ALL))
-                            .map(table -> new Table(database, table))
-                            .collect(Collectors.toList());
-                }).flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    public Map<String, List<Matcher>> groupMatcherMap() {
+        return groupMatcherMap;
     }
+
 
     @Override
     public List<JobMapping> schemaMappings() {
@@ -97,8 +85,8 @@ public class SimpleHandlerMapping implements HandlerMapping {
         }
 
         @Override
-        public void handle(Log record) {
-            target.handle(record);
+        public void handle(Log opLog) {
+            target.handle(opLog);
         }
 
         public boolean match(String database, String table, Op op, String group) {
@@ -106,40 +94,6 @@ public class SimpleHandlerMapping implements HandlerMapping {
         }
     }
 
-
-    private static class Matcher {
-
-
-        protected Matcher(Collection<String> databases,
-                          Collection<String> tables,
-                          Collection<Op> ops,
-                          String group
-        ) {
-            this(new HashSet<>(databases), new HashSet<>(tables), new HashSet<>(ops), group);
-        }
-
-
-        protected Matcher(Set<String> databases, Set<String> tables, Set<Op> ops, String group) {
-            this.databases = databases;
-            this.tables = tables;
-            this.ops = ops;
-            this.group = group;
-        }
-
-        private String group;
-        private Set<String> databases;
-        private Set<String> tables;
-        private Set<Op> ops;
-
-
-        public boolean match(String database, String table, Op op, String group) {
-            return (this.group == JobMapping.ALL || Objects.equals(this.group, group)) &&
-                    (this.databases.contains(JobMapping.ALL) || this.databases.contains(database))
-                    && (this.tables.contains(JobMapping.ALL) || this.tables.contains(table))
-                    && (this.ops.contains(op));
-        }
-
-    }
 
     /**
      * @param c1
@@ -167,9 +121,9 @@ public class SimpleHandlerMapping implements HandlerMapping {
 
     protected List<String> resolvePlaceholders(String[] texts) {
         if (texts == null || texts.length == 0) {
-            Collections.emptyList();
+            return Collections.emptyList();
         }
-        return Arrays.stream(texts).map(text -> resolvePlaceholders(text))
+        return Arrays.stream(texts).map(this::resolvePlaceholders)
                 .collect(Collectors.toList());
     }
 

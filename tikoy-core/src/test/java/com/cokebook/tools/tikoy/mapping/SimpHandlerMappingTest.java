@@ -19,16 +19,16 @@ public class SimpHandlerMappingTest {
     @Test
     public void test() {
         XyzHandler xyzHandler = new XyzHandler();
-        SimpleHandlerMapping simpleHandlerMapping = new SimpleHandlerMapping(Function.identity());
-        simpleHandlerMapping.register(xyzHandler);
+        HandlerMappingImpl handlerMappingImpl = new HandlerMappingImpl(str -> str);
+        handlerMappingImpl.register(xyzHandler);
 
-        Handler handler = simpleHandlerMapping.getHandler("TT", new SimpleLog(
+        Handler handler = handlerMappingImpl.getHandler("TT", new SimpleLog(
                 "", "tbl_xyz", Op.INSERT, Collections.emptyMap()
         ), null);
 
         Assert.assertNotNull(handler);
 
-        Handler handler2 = simpleHandlerMapping.getHandler("TTX", new SimpleLog(
+        Handler handler2 = handlerMappingImpl.getHandler("TTX", new SimpleLog(
                 "", "tbl_xyz", Op.INSERT, Collections.emptyMap()
         ), null);
 

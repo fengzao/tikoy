@@ -7,15 +7,15 @@ import java.util.List;
 /**
  * @date 2024/11/12
  */
-public class ChainHandler implements Handler {
+public class HandlerChain implements Handler {
     private final List<Handler> handlerList;
 
-    public ChainHandler(List<Handler> handlerList) {
+    public HandlerChain(List<Handler> handlerList) {
         this.handlerList = handlerList;
     }
 
     @Override
-    public void handle(Log record) {
-        handlerList.forEach(handler -> handler.handle(record));
+    public void handle(Log opLog) {
+        handlerList.forEach(handler -> handler.handle(opLog));
     }
 }

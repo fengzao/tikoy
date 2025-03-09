@@ -2,9 +2,8 @@ package com.cokebook.tools.tikoy.mapping;
 
 import com.cokebook.tools.tikoy.dispatcher.Log;
 import com.cokebook.tools.tikoy.mapping.annotation.JobMapping;
-import com.cokebook.tools.tikoy.support.Table;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @date 2024/11/11
@@ -17,6 +16,6 @@ public interface HandlerMapping {
 
     List<JobMapping> schemaMappings();
 
-    List<Table> snapshotTable(String group);
+    Map<String, List<Matcher>> groupMatcherMap();
 
 }

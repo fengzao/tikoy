@@ -10,8 +10,8 @@ public interface Handler {
     /**
      * 记录处理
      *
-     * @param record
+     * @param opLog database operate log
      */
-    void handle(Log record);
+    void handle(Log opLog);
 
 }

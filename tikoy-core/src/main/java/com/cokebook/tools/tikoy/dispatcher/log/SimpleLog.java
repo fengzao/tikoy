@@ -1,5 +1,6 @@
-package com.cokebook.tools.tikoy.dispatcher;
+package com.cokebook.tools.tikoy.dispatcher.log;
 
+import com.cokebook.tools.tikoy.dispatcher.Log;
 import com.cokebook.tools.tikoy.mapping.Op;
 import lombok.Data;
 

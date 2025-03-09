@@ -1,6 +1,4 @@
-package com.cokebook.tools.tikoy.mapping;
-
-import java.util.function.Function;
+package com.cokebook.tools.tikoy.support;
 
 /**
  * Text Resolver

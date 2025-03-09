@@ -2,8 +2,8 @@ package com.cokebook.tools.tikoy.spring;
 
 import com.cokebook.tools.tikoy.container.JobContainer;
 import com.cokebook.tools.tikoy.container.JobFactory;
-import com.cokebook.tools.tikoy.container.JobSnapshotTrigger;
-import com.cokebook.tools.tikoy.mapping.TextResolver;
+import com.cokebook.tools.tikoy.container.snapshot.SnapshotTrigger;
+import com.cokebook.tools.tikoy.support.TextResolver;
 import com.cokebook.tools.tikoy.mapping.annotation.JobMapping;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
@@ -31,8 +31,8 @@ public class TikoyAutoConfiguration {
     }
 
     @Bean
-    public JobSnapshotTrigger snapshotTrigger(JobContainer jobContainer, ApplicationContext applicationContext) {
-        return new JobSnapshotTrigger(jobContainer,
+    public SnapshotTrigger snapshotTrigger(JobContainer jobContainer, ApplicationContext applicationContext) {
+        return new SnapshotTrigger(jobContainer,
                 jobContainer::getLogDispatcher,
                 () -> new SpringJdbcOperationsFactory(applicationContext));
     }

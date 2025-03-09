@@ -1,4 +1,4 @@
-package com.cokebook.tools.tikoy.support;
+package com.cokebook.tools.tikoy.travelling;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 

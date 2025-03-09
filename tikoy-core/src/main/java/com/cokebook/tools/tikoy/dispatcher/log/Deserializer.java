@@ -1,8 +1,17 @@
 package com.cokebook.tools.tikoy.dispatcher.log;
 
-import java.util.function.Function;
+/**
+ * 字符串反序列化
+ *
+ * @param <T>
+ */
+public interface Deserializer<T> {
 
-
-public interface Deserializer<T> extends Function<String, T> {
-
+    /**
+     * 对字符串进行反序列化
+     *
+     * @param str 字符串内容
+     * @return 反序列化后对象
+     */
+    T apply(String str);
 }

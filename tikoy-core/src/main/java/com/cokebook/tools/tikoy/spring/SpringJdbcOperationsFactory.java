@@ -1,6 +1,6 @@
 package com.cokebook.tools.tikoy.spring;
 
-import com.cokebook.tools.tikoy.support.JdbcOperationsFactory;
+import com.cokebook.tools.tikoy.travelling.JdbcOperationsFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

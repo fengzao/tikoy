@@ -1,6 +1,5 @@
 package com.cokebook.tools.tikoy.travelling;
 
-import com.cokebook.tools.tikoy.support.JdbcOperationsFactory;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

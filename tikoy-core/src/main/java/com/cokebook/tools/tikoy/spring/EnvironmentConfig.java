@@ -1,6 +1,6 @@
 package com.cokebook.tools.tikoy.spring;
 
-import com.cokebook.tools.tikoy.mapping.Config;
+import com.cokebook.tools.tikoy.support.Config;
 import org.springframework.core.env.Environment;
 
 public class EnvironmentConfig implements Config {

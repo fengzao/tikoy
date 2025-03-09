@@ -11,8 +11,8 @@ import java.lang.reflect.Method;
 public class MethodInvokeHandler implements
         Handler {
 
-    private Object target;
-    private Method method;
+    private final Object target;
+    private final Method method;
 
     public MethodInvokeHandler(Object target, Method method) {
         this.target = target;
@@ -20,9 +20,9 @@ public class MethodInvokeHandler implements
     }
 
     @Override
-    public void handle(Log record) {
+    public void handle(Log opLog) {
         try {
-            method.invoke(target, record);
+            method.invoke(target, opLog);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new IllegalStateException(e);
         }
