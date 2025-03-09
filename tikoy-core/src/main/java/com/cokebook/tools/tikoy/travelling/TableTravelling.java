@@ -3,8 +3,8 @@ package com.cokebook.tools.tikoy.travelling;
 import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
 import com.cokebook.tools.tikoy.dispatcher.SimpleLog;
 import com.cokebook.tools.tikoy.mapping.Op;
-import com.cokebook.tools.tikoy.support.Table;
 import com.cokebook.tools.tikoy.support.JdbcOperationsFactory;
+import com.cokebook.tools.tikoy.support.Table;
 import lombok.Builder;
 import lombok.Data;
 

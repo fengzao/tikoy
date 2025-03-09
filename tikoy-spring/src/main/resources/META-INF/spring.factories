@@ -1,4 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.cokebook.tools.tikoy.spring.boot.TikoyAutoConfiguration,\
-com.cokebook.tools.tikoy.spring.boot.TikoyKafkaAutoConfiguration

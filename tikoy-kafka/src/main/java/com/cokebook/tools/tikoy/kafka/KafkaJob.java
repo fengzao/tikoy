@@ -4,7 +4,6 @@ import com.cokebook.tools.tikoy.container.Job;
 import com.cokebook.tools.tikoy.dispatcher.Log;
 import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
 import com.cokebook.tools.tikoy.dispatcher.log.SmartLogDeserializer;
-import com.cokebook.tools.tikoy.support.Props;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.CommitFailedException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -27,9 +26,9 @@ import java.util.stream.Collectors;
 public class KafkaJob implements Job {
 
 
-    private String id;
-    private JobProps props;
-    private LogDispatcher logDispatcher;
+    private final String id;
+    private final JobProps props;
+    private final LogDispatcher logDispatcher;
     private KafkaConsumer<String, Log> consumer;
     private final ExecutorService pool;
     private final AtomicBoolean closed = new AtomicBoolean(false);
@@ -45,18 +44,18 @@ public class KafkaJob implements Job {
     @Override
     public void init() {
 
-        if (props.getValueDeserializer() == null) {
-            props.setValueDeserializer(DefaultDeserializer.class.getName());
+        if (props.valueDeserializer() == null) {
+            props.valueDeserializer(DefaultDeserializer.class.getName());
         }
-        if (props.getId() == null) {
-            props.setId(this.id);
+        if (props.id() == null) {
+            props.id(this.id);
         }
-        String topics = props.getTopics();
+        String topics = props.topics();
         if (topics == null || topics.trim().isEmpty()) {
             log.warn("the kafka consumer config  topics is null or empty , ignore this job.");
             return;
         }
-        this.consumer = new KafkaConsumer<String, Log>(Props.toMap(props));
+        this.consumer = new KafkaConsumer<String, Log>(props);
         this.consumer.subscribe(Arrays.stream(topics.split(",")).map(String::trim).filter(str -> !str.isEmpty()).collect(Collectors.toList()));
 
     }

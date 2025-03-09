@@ -3,12 +3,10 @@ package com.cokebook.tools.tikoy.kafka;
 import com.cokebook.tools.tikoy.container.Job;
 import com.cokebook.tools.tikoy.container.JobFactory;
 import com.cokebook.tools.tikoy.dispatcher.LogDispatcher;
-import com.cokebook.tools.tikoy.support.Props;
+import com.cokebook.tools.tikoy.mapping.Config;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,29 +16,21 @@ import java.util.stream.Stream;
 @Slf4j
 public class KafkaJobFactory implements JobFactory {
 
-    private String prefix;
-    private Function<String, String> env;
+    private final String prefix;
+    private final Config config;
 
-
-    public KafkaJobFactory(String prefix, Function<String, String> env) {
+    public KafkaJobFactory(String prefix, Config config) {
         this.prefix = prefix;
-        this.env = env != null ? env : text -> null;
+        this.config = config;
     }
 
     @Override
     public Job get(String id, LogDispatcher dispatcher) {
-
-        JobProps props = Props.of(env,
+        JobProps props = JobProps.from(config,
                 Stream.of(prefix, id)
                         .filter(Objects::nonNull)
-                        .filter(str -> !str.trim().isEmpty())
-                        .collect(Collectors.joining(".")),
-                JobProps.class
-        );
-
+                        .collect(Collectors.joining(".")));
         return new KafkaJob(id, props, dispatcher);
-
     }
-
 
 }

@@ -2,7 +2,6 @@ package com.cokebook.tools.tikoy.dispatcher;
 
 import com.cokebook.tools.tikoy.mapping.Op;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
